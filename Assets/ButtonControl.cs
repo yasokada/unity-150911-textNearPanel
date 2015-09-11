@@ -2,6 +2,11 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/*
+ * v0.1 2015/09/11
+ *   - fix y position error by setting height to 30.0
+ */
+
 public class ButtonControl : MonoBehaviour {
 	public Canvas myCanvas;
 	public GameObject myPanel;
@@ -16,21 +21,25 @@ public class ButtonControl : MonoBehaviour {
 		// Bottom Left
 		Vector3 pos;
 		pos = myPanel.transform.position;
+
 		pos.x -= width * 0.5f * canvasRect.localScale.x;
 		if (atBottom) {
 			pos.y -= height * 0.5f * canvasRect.localScale.y;
 		} else {
 			pos.y += height * 0.5f * canvasRect.localScale.y;
 		}
-		
+	
 		GameObject BottomLeftGO = new GameObject ();
-		BottomLeftGO.transform.parent = myPanel.transform;
 		BottomLeftGO.name = "Text";
+		BottomLeftGO.transform.parent = myPanel.transform;
 		BottomLeftGO.transform.position = pos;
 		BottomLeftGO.transform.localScale = new Vector3 (1f, 1f, 1f);
 		Text BottomLeftText = BottomLeftGO.AddComponent<Text> ();
 		BottomLeftText.text = val.ToString ();
 		BottomLeftText.font = Resources.GetBuiltinResource (typeof(Font), "Arial.ttf") as Font;
+
+		RectTransform textRect = BottomLeftText.GetComponent<RectTransform> ();
+		textRect.sizeDelta = new Vector2 (100.0f, 30.0f);
 	}
 	
 	public void ButtonClick() {
